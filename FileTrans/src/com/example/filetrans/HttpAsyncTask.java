@@ -80,10 +80,12 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 			urlConnection.setRequestMethod("POST");
 			
 			OutputStream os = urlConnection.getOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(os);
-			oos.writeObject(this.uploadObject);
-			oos.flush();
-			oos.close();
+//			ObjectOutputStream oos = new ObjectOutputStream(os);
+//			oos.writeObject(this.uploadObject);
+//			oos.flush();
+//			oos.close();
+			os.write(this.uploadObject.toString().getBytes());
+			os.flush();
 			
 			InputStream is = urlConnection.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
