@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				String urlStr = "";
+				String urlStr = "www.baidu.com";
 				try {
 					HttpSender.post(urlStr, bitmap, new TextResponse(), HttpRequestType.POST_FILE);
 				} catch (MalformedURLException e) {
