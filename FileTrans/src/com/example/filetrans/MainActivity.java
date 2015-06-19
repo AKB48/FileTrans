@@ -40,9 +40,10 @@ public class MainActivity extends Activity {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				String urlStr = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
+				String urlStr = "http://www.whatsact.com:10087/json";
+				String urlStr2 = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
 				try {
-					HttpSender.get(urlStr, new ShowResponse(), HttpRequestType.GET_FILE);
+					HttpSender.post(urlStr, jo, new TextResponse(), HttpRequestType.POST_DATA);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -80,4 +81,20 @@ public class MainActivity extends Activity {
 			imView.setImageBitmap((Bitmap)respContent);
 		}
 	}
+	
+	class TextResponse implements IResponse
+	{
+
+		@Override
+		public void onResponse(Object respContent) {
+			JSONObject jo = (JSONObject)respContent;
+			try {
+				tv.setText(jo.getInt("cmd")+"");
+			} catch(JSONException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 }
