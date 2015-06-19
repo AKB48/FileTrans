@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
 				String urlStr = "http://www.whatsact.com:10087/json";
 				String urlStr2 = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
 				try {
-					HttpSender.get(urlStr2, new ShowResponse(), HttpRequestType.POST_DATA);
+					HttpSender.get(urlStr2, new ShowResponse(), HttpRequestType.GET_FILE);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -156,7 +156,7 @@ public class MainActivity extends Activity {
 	    canvas.drawRoundRect(rectF, radius, radius, paint);
 	    paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 	    canvas.drawBitmap(bitmap, rect, rect, paint);
-
+	    bitmap.recycle();
 	    return output;
 	}
 
