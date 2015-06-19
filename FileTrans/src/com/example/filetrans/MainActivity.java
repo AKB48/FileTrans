@@ -151,7 +151,7 @@ public class MainActivity extends Activity {
 		final Rect rect = new Rect(deltaX, deltaY, w, w);
 		final RectF rectF = new RectF(rect);
 		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);  
+		canvas.drawARGB(0, 0, 0, 0);
 		int radius = (int) (Math.sqrt(w * w * 2.0d) / 2);
 	    canvas.drawRoundRect(rectF, radius, radius, paint);
 	    paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
