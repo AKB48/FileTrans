@@ -32,12 +32,13 @@ public class MainActivity extends Activity {
 				JSONObject jo = new JSONObject();
 				try {
 					jo.put("aa", 1);
+					jo.put("bb", 11);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				String urlStr = "http://www.whatsact.com:10087/json";
+				String urlStr = "http://203.195.153.211:10087/json";
 				try {
-					HttpSender.post(urlStr, jo, new ShowResponse(), HttpRequestType.POST_DATA);
+					HttpSender.post(urlStr, jo.toString(), new ShowResponse(), HttpRequestType.POST_DATA);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}

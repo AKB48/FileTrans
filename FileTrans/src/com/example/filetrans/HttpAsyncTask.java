@@ -1,5 +1,6 @@
 package com.example.filetrans;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 	private Object uploadObject = null;
 	private IResponse httpresponse = null;
 	private HttpURLConnection urlConnection = null;
+	private Object respObject = null;
 	private int requestType = 0;
 	
 	
@@ -59,6 +61,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 	@Override  
 	protected void onPostExecute(String result) {  
 		super.onPostExecute(result);  
+		this.httpresponse.onResponse(respObject);
 	} 
 	
 	
@@ -93,7 +96,8 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 					respStr.append(str);
 				}
 			}
-			this.httpresponse.onResponse(respStr);
+			respObject = respStr;
+			//this.httpresponse.onResponse(respStr);
 			if (is != null)
 			{
 				is.close();
