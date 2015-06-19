@@ -2,6 +2,8 @@ package com.example.filetrans;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +16,7 @@ import java.net.URL;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
@@ -84,7 +87,16 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 //			oos.writeObject(this.uploadObject);
 //			oos.flush();
 //			oos.close();
-			os.write(this.uploadObject.toString().getBytes());
+			if (this.uploadObject instanceof Bitmap)
+			{
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+				((Bitmap) this.uploadObject).compress(CompressFormat.JPEG, 100, baos);  
+				os.write(baos.toByteArray());
+			}
+			else {
+				os.write(this.uploadObject.toString().getBytes());
+			}
+			
 			os.flush();
 			
 			InputStream is = urlConnection.getInputStream();

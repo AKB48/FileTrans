@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +19,9 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	
 	private TextView tv;
-	private Button bt;
+	private Button bt, bt2;
 	private ImageView imView;
+	private Bitmap bitmap = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,9 @@ public class MainActivity extends Activity {
 		
 		tv = (TextView)this.findViewById(R.id.showtext);
 		bt = (Button)this.findViewById(R.id.upload);
+		bt2 = (Button)this.findViewById(R.id.uploadimage);
 		imView = (ImageView)this.findViewById(R.id.image);
+		bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
 		bt.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -44,6 +48,21 @@ public class MainActivity extends Activity {
 				String urlStr2 = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
 				try {
 					HttpSender.post(urlStr, jo, new TextResponse(), HttpRequestType.POST_DATA);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		
+		bt2.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String urlStr = "";
+				try {
+					HttpSender.post(urlStr, bitmap, new TextResponse(), HttpRequestType.POST_FILE);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
