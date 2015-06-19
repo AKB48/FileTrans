@@ -6,17 +6,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
 	private TextView tv;
 	private Button bt;
+	private ImageView imView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class MainActivity extends Activity {
 		
 		tv = (TextView)this.findViewById(R.id.showtext);
 		bt = (Button)this.findViewById(R.id.upload);
+		imView = (ImageView)this.findViewById(R.id.image);
 		bt.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -36,9 +40,9 @@ public class MainActivity extends Activity {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				String urlStr = "http://203.195.153.211:10087/json";
+				String urlStr = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
 				try {
-					HttpSender.post(urlStr, jo.toString(), new ShowResponse(), HttpRequestType.POST_DATA);
+					HttpSender.get(urlStr, new ShowResponse(), HttpRequestType.GET_FILE);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -72,7 +76,8 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onResponse(Object respContent) {
-			tv.setText(respContent.toString());		
+			//tv.setText(respContent.toString());
+			imView.setImageBitmap((Bitmap)respContent);
 		}
 	}
 }

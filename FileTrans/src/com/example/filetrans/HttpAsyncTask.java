@@ -99,7 +99,6 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 				}
 			}
 			respObject = respStr;
-			//this.httpresponse.onResponse(respStr);
 			if (is != null)
 			{
 				is.close();
@@ -129,7 +128,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 			urlConnection.connect();
 			InputStream is = urlConnection.getInputStream();
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
-			this.httpresponse.onResponse(bitmap);
+			respObject = bitmap;
 			if (is != null)
 			{
 				is.close();
