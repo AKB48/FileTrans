@@ -98,7 +98,7 @@ public class HttpAsyncTask extends AsyncTask<Void, Void, String> {
 					respStr.append(str);
 				}
 			}
-			respObject = respStr;
+			respObject = respStr.toString();
 			if (is != null)
 			{
 				is.close();
