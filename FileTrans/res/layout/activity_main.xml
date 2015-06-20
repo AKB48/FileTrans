@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.filetrans.MainActivity" xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="#ff000000">
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/showtext"
@@ -23,10 +23,22 @@
         android:layout_height="wrap_content"
         android:text="Upload" />
     
-    <Button
-        android:id="@+id/uploadimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UploadImage" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+	    <Button
+	        android:id="@+id/uploadimage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="UploadImage" />
+	    
+	    <Button
+	        android:id="@+id/launch"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Launch" />
+    
+    </LinearLayout>
 
 </LinearLayout>

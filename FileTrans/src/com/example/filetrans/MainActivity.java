@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +29,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	
 	private TextView tv;
-	private Button bt, bt2;
+	private Button bt, bt2, launchbt;
 	private ImageView imView;
 	private Bitmap bitmap = null;
 
@@ -38,6 +41,7 @@ public class MainActivity extends Activity {
 		tv = (TextView)this.findViewById(R.id.showtext);
 		bt = (Button)this.findViewById(R.id.upload);
 		bt2 = (Button)this.findViewById(R.id.uploadimage);
+		launchbt = (Button)this.findViewById(R.id.launch);
 		imView = (ImageView)this.findViewById(R.id.image);
 		bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
 		bt.setOnClickListener(new View.OnClickListener() {
@@ -46,13 +50,13 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				JSONObject jo = new JSONObject();
 				try {
-					jo.put("aa", 1);
-					jo.put("bb", 11);
+					jo.put("telephone", "123456789");
+					jo.put("password", "abcdefg");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				String urlStr = "http://www.whatsact.com:10087/json";
-				String urlStr2 = "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg";
+				String urlStr = "http://10.66.44.41/mini_proj/register.php";
+				String urlStr2 = "http://10.66.44.41/mini_proj/upload/temp.jpg";
 				try {
 					HttpSender.get(urlStr2, new ShowResponse(), HttpRequestType.GET_FILE);
 				} catch (MalformedURLException e) {
@@ -67,7 +71,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				String urlStr = "www.baidu.com";
+				String urlStr = "http://10.66.44.41/mini_proj/uploadpic.php";
 				try {
 					HttpSender.post(urlStr, bitmap, new TextResponse(), HttpRequestType.POST_FILE);
 				} catch (MalformedURLException e) {
@@ -76,6 +80,25 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		
+		
+		launchbt.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();  
+                intent.setClass(MainActivity.this, MarkActivity.class);
+                try 
+                {
+                    startActivityForResult(intent, ActivityFlag.MarkAct);  
+                }
+                catch (ActivityNotFoundException e) 
+                {  
+                    return;
+                }   
+                
+            }
+        });
 	}
 
 	@Override
@@ -104,6 +127,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onResponse(Object respContent) {
 			imView.setImageBitmap(getRoundedCornerBitmap((Bitmap)respContent));
+		    //imView.setImageBitmap((Bitmap)respContent);
 		}
 	}
 	
@@ -113,16 +137,18 @@ public class MainActivity extends Activity {
 		@Override
 		public void onResponse(Object respContent) {
 			JSONObject jo = null;
-            try {
-                jo = new JSONObject((String)respContent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-			try {
-				tv.setText(jo.getInt("cmd")+"");
-			} catch(JSONException e) {
-				e.printStackTrace();
-			}
+			//Log.i("test", (String)respContent);
+//            try {
+//                jo = new JSONObject((String)respContent);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//			try {
+//				tv.setText(jo.getString("telephone")+" "+jo.getString("password"));
+			    tv.setText((CharSequence) respContent);
+//			} catch(JSONException e) {
+//				e.printStackTrace();
+//			}
 			
 		}
 	}
@@ -130,25 +156,27 @@ public class MainActivity extends Activity {
 	
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) 
 	{
-		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-		final Paint paint = new Paint();
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		int w;
-		int deltaX = 0;
-		int deltaY = 0;
+		//int deltaX = 0;
+		//int deltaY = 0;
 
 		if (width <= height) {
 			w = width;
-			deltaY = height - w;
+			//deltaY = height - w;
 		} 
 		else {
 			w = height;
-			deltaX = width - w;
+			//deltaX = width - w;
 
 		}
-		final Rect rect = new Rect(deltaX, deltaY, w, w);
+		
+		Bitmap output = Bitmap.createBitmap(w, w, Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final Paint paint = new Paint();
+        
+		final Rect rect = new Rect(0, 0, w, w);
 		final RectF rectF = new RectF(rect);
 		paint.setAntiAlias(true);
 		canvas.drawARGB(0, 0, 0, 0);
@@ -159,6 +187,12 @@ public class MainActivity extends Activity {
 	    bitmap.recycle();
 	    return output;
 	}
+	
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
+        super.onActivityResult(requestCode, resultCode, data);  
+              
+    }   
 
 	
 }
